@@ -8,7 +8,7 @@ module Api
             # GET /api/v1/teachers
             def index
                 teachers = Teacher.order('created_at DESC')
-                render json: {status: 'SUCCESS', message: 'Loaded teacher list', data: teachers}, status: :ok
+                render json: {status: 'SUCCESS', message: 'Loaded teacher list', data: teachers}, include:'school', status: :ok
             end
 
             ##
@@ -17,7 +17,7 @@ module Api
             # GET /api/v1/teachers/[id]
             def show
                 teacher = Teacher.find(params[:id])
-                render json: {status: 'SUCCESS', message: 'Loaded teacher', data: teacher}, status: :ok
+                render json: {status: 'SUCCESS', message: 'Loaded teacher', data: teacher}, include:'school', status: :ok
             end
 
             ##
@@ -27,7 +27,7 @@ module Api
             def create
                 teacher = Teacher.new(teacher_params)
                 if teacher.save
-                    render json: {status: 'SUCCESS', message: 'Teacher has been saved.', data: teacher}, status: :ok
+                    render json: {status: 'SUCCESS', message: 'Teacher has been saved.', data: teacher}, include:'school', status: :ok
                 else
                     render json: {status: 'ERROR', message: 'Teacher has not been saved.', data: teacher.errors}, status: :unprocessable_entity
                 end
@@ -40,7 +40,7 @@ module Api
             def update
                 teacher = Teacher.find(params[:id])
                 if teacher.update_attributes(teacher_params)
-                    render json: {status: 'SUCCESS', message: 'Teacher has been updated.', data: teacher}, status: :ok
+                    render json: {status: 'SUCCESS', message: 'Teacher has been updated.', data: teacher}, include:'school', status: :ok
                 else
                     render json: {status: 'ERROR', message: 'Teacher has not been updated.', data: teacher.errors}, status: :unprocessable_entity
             
@@ -63,7 +63,7 @@ module Api
             # Method teacher_params 
             # Private params for Teacher
             def teacher_params
-                params.permit(:name, :email, :phone, :subject)
+                params.permit(:name, :email, :phone, :subject, :school_id)
             end
 
         end
