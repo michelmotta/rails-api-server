@@ -5,7 +5,7 @@ module Api
             ##
             # Index Method
             # Method used by API to return a list of schools from database
-            #
+            # GET /api/v1/schools
             def index
                 schools = School.order('created_at DESC')
                 render json: {status: 'SUCCESS', message: 'Loaded school list', data: schools}, status: :ok
@@ -14,7 +14,7 @@ module Api
             ##
             # Show Method
             # Method used by API to return a school from database
-            #
+            # GET /api/v1/schools/[id]
             def show
                 school = School.find(params[:id])
                 render json: {status: 'SUCCESS', message: 'Loaded School', data: school}, status: :ok
@@ -23,7 +23,7 @@ module Api
             ##
             # Create Method
             # Method used by API to create new school into database
-            #
+            # POST /api/v1/schools
             def create
                 school = School.new(school_params)
                 if school.save
@@ -36,7 +36,7 @@ module Api
             ##
             # Update Method
             # Method used by API to update a school into database
-            #
+            # PUT /api/v1/schools/[id]
             def update
                 school = School.find(params[:id])
                 if school.update_attributes(school_params)
@@ -50,7 +50,7 @@ module Api
             ##
             # Destroy Method
             # Method used by API to delete a school from database
-            #
+            # DELETE /api/v1/schools/[id]
             def destroy
                 school = School.find(params[:id])
                 school.destroy
@@ -59,6 +59,9 @@ module Api
 
             private
 
+            ##
+            # Method school_params 
+            # Private params for School
             def school_params
                 params.permit(:name, :email, :phone)
             end
